@@ -18,7 +18,6 @@ class EnemigoController extends GetxController{
   bool cargando = false;
 
   Future <void> obtenerEnemigos() async {
-    cargando = true;
     update();
     final response = await peticionesApi.httpGet();
     final listaEnemigos = response.body["result"];
