@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:proyectoapi/controllers/enemigo_controller.dart';
+import 'dart:math' as math;
 
 void main() => runApp(const HomePages());
 
@@ -10,9 +11,10 @@ class HomePages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       
       appBar: AppBar(
-        title: const Text('enemigos'),
+        title: const Text('Maplestory simple enemy list'),
       ),
       body: GetBuilder<EnemigoController>(builder: (enemigoController) {
         return GridView.builder(
@@ -20,6 +22,7 @@ class HomePages extends StatelessWidget {
           itemBuilder: (context, i) {
             final enemigo = enemigoController.enemigos[i];
             return Card(
+              color: Colors.white,
               margin: const EdgeInsets.all(15),
               child: InkWell(
                 onTap: () {
