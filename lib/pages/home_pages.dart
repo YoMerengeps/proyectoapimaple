@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:proyectoapi/controllers/enemigo_controller.dart';
 import 'dart:math' as math;
 
+import 'package:proyectoapi/pages/search_enemigo.dart';
+
 void main() => runApp(const HomePages());
 
 class HomePages extends StatelessWidget {
@@ -11,10 +13,20 @@ class HomePages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Maplestory simple enemy list'),
+
+        actions: [
+          IconButton(
+            tooltip: "Buscar Enemigo",
+            onPressed: () {
+              showSearch(context: context, delegate: SearchEnemigo());
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
       body: GetBuilder<EnemigoController>(builder: (enemigoController) {
         return GridView.builder(
@@ -58,8 +70,7 @@ class HomePages extends StatelessWidget {
                       ),
                       const SizedBox(height: 1),
                       Text(
-                        "\u{1F5FF}Level: " +
-                            (enemigo.stats!.level).toString(),
+                        "\u{1F5FF}Level: " + (enemigo.stats!.level).toString(),
                       ),
                       const SizedBox(height: 1),
                       Text(
@@ -71,8 +82,7 @@ class HomePages extends StatelessWidget {
                       ),
                       const SizedBox(height: 1),
                       Text(
-                        "\u{2694}Attack: " +
-                            (enemigo.stats!.attack).toString(),
+                        "\u{2694}Attack: " + (enemigo.stats!.attack).toString(),
                       ),
                     ],
                   ),
@@ -84,6 +94,12 @@ class HomePages extends StatelessWidget {
               crossAxisCount: 2),
         );
       }),
+      // floatingActionButton: FloatingActionButton(
+        
+      //   onPressed:(){
+      //     Icon(Icons.arrow_left);
+
+      //   } ),
     );
   }
 }

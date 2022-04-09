@@ -132,8 +132,25 @@ class DatosEnemigoPages extends StatelessWidget {
               ],
             ),
           ),
+          Positioned(
+            top: 650,
+            left: 350,
+            right: 1,
+            child: Image(
+              image: NetworkImage(
+                  "https://c.tenor.com/0Dj2elBAOXUAAAAS/tube-sniff.gif"),
+            ),
+          ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.arrow_back_ios_new_outlined),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }
+//sas
