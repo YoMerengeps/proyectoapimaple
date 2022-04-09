@@ -1,31 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:proyectoapi/controllers/enemigo_controller.dart';
-import 'package:proyectoapi/models/enemigo_model.dart';
+import 'dart:math' as math;
 
-void main() => runApp(HomePages());
+import 'package:proyectoapi/pages/search_enemigo.dart';
+
+void main() => runApp(const HomePages());
 
 class HomePages extends StatelessWidget {
-  HomePages({Key? key}) : super(key: key);
-  final enemigocontroller = Get.find<EnemigoController>();
+  const HomePages({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(EnemigoController());
-    Get.put(Stats());
     return Scaffold(
+      
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('enemigos'),
+        title: const Text('Maplestory simple enemy list'),
+
+        actions: [
+          IconButton(
+            tooltip: "Buscar Enemigo",
+            onPressed: () {
+              showSearch(context: context, delegate: SearchEnemigo());
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
-      body: GetBuilder<EnemigoController>(builder: (Stats) {
+      body: GetBuilder<EnemigoController>(builder: (enemigoController) {
         return GridView.builder(
-          itemCount: Stats.enemigos.length,
+          itemCount: enemigoController.enemigos.length,
           itemBuilder: (context, i) {
-            final enemigo = Stats.enemigos[i];
+            final enemigo = enemigoController.enemigos[i];
             return Card(
-              margin: EdgeInsets.all(8.0),
+              color: Colors.white,
+              margin: const EdgeInsets.all(15),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  enemigoController.enemigo = enemigo;
+                  Navigator.pushNamed(context, '/detalles/enemigo');
+                },
                 splashColor: Colors.cyan,
                 child: Center(
                   child: Column(
@@ -36,45 +51,36 @@ class HomePages extends StatelessWidget {
                             "https://api.maplestory.net/monster/" +
                                 (enemigo.monsterId!).toString() +
                                 "/icon"),
-                        width: 100,
-                        height: 100,
-                        placeholder:
-                            NetworkImage("https://thumbs.gfycat.com/AthleticSnivelingAzurevasesponge.webp"),
+                        width: 80,
+                        height: 80,
+                        placeholder: const NetworkImage(
+                            "https://thumbs.gfycat.com/AthleticSnivelingAzurevasesponge.webp"),
                         imageErrorBuilder: (context, error, stackTrace) {
                           return Image.network(
                               'https://i.imgur.com/UX2hQaH.png',
-                              width: 140,
-                              height: 140,
+                              width: 80,
+                              height: 80,
                               fit: BoxFit.contain);
                         },
                         fit: BoxFit.contain,
                       ),
-                      // Image(
-                      //   image: NetworkImage(
-                      //       "https://api.maplestory.net/monster/" +
-                      //           (enemigo.monsterId!).toString() +
-                      //           "/icon"),
-                      //   width: 70,
-                      //   height: 70,
-                      // ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 1),
                       Text(
                         "Name: " + (enemigo.name!),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 1),
                       Text(
-                        "\u{1F5FF}Level: " + (enemigo.stats!.level).toString() ,
+                        "\u{1F5FF}Level: " + (enemigo.stats!.level).toString(),
                       ),
-                      SizedBox(height: 2),
-                      
+                      const SizedBox(height: 1),
                       Text(
                         "\u{2665}Hp: " + (enemigo.stats!.maxHp).toString(),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 1),
                       Text(
                         "\u{2795}Exp: " + (enemigo.rewards!.exp).toString(),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 1),
                       Text(
                         "\u{2694}Attack: " + (enemigo.stats!.attack).toString(),
                       ),
@@ -84,10 +90,16 @@ class HomePages extends StatelessWidget {
               ),
             );
           },
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
         );
       }),
+      // floatingActionButton: FloatingActionButton(
+        
+      //   onPressed:(){
+      //     Icon(Icons.arrow_left);
+
+      //   } ),
     );
   }
 }

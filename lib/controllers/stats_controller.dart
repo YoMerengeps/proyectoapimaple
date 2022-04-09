@@ -19,10 +19,11 @@ class StatsController extends GetxController {
   Future<void> obtenerStats() async {
     cargando = true;
     update();
-    final response = await peticionesApi.httpGet();
+    final response = await peticionesApi.httpGet(
+        url: "https://api.maplestory.net/monsters/?maxEntries=50000&");
     final listaStats = response.body["result"];
-    final listaStatsModel =List<Stats>.from(
-      listaStats.map((stat) => Stats.fromJson(stat)));
+    final listaStatsModel =
+        List<Stats>.from(listaStats.map((stat) => Stats.fromJson(stat)));
     stats.addAll(listaStatsModel);
     update();
   }
